@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Wish for World Peace</title>
+    <style>
+        :root {
+            --primary-blue: #e0f2f1;
+            --deep-blue: #1a237e;
+            --accent-gold: #ffd700;
+            --soft-white: #ffffff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+            color: var(--deep-blue);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Animated Background Elements */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+            opacity: 0.3;
+            z-index: -1;
+            animation: move linear infinite;
+        }
+
+        @keyframes move {
+            from { transform: translateX(-200px); }
+            to { transform: translateX(110vw); }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            text-align: center;
+            padding: 50px 20px;
+            z-index: 1;
+        }
+
+        /* Dove Icon Animation */
+        .dove-container {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 40px;
+            opacity: 0.8;
+        }
+
+        /* Quote Section */
+        .quote-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            transition: transform 0.3s ease;
+        }
+
+        .quote-card:hover {
+            transform: scale(1.02);
+        }
+
+        #quote-text {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        #quote-author {
+            font-weight: bold;
+            color: #3949ab;
+        }
+
+        /* Interactive Button */
+        .wish-btn {
+            background-color: var(--soft-white);
+            color: var(--deep-blue);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .wish-btn:hover {
+            background-color: var(--deep-blue);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Wish Counter */
+        .counter {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            #quote-text { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Decorative Clouds -->
+    <div class="cloud" style="width: 200px; height: 60px; top: 10%; animation-duration: 25s;"></div>
+    <div class="cloud" style="width: 150px; height: 45px; top: 30%; animation-duration: 35s; animation-delay: -5s;"></div>
+    <div class="cloud" style="width: 250px; height: 80px; top: 60%; animation-duration: 30s; animation-delay: -10s;"></div>
+
+    <div class="container">
+        <div class="dove-container">🕊️</div>
+        
+        <h1>Peace Be Upon Us</h1>
+        <p class="subtitle">May every heart find tranquility and every nation find harmony.</p>
+
+        <div class="quote-card">
+            <p id="quote-text">"Peace begins with a smile."</p>
+            <p id="quote-author">— Mother Teresa</p>
+        </div>
+
+        <button class="wish-btn" onclick="sendWish()">Send a Wish for Peace</button>
+        
+        <div class="counter">
+            <span id="wish-count">1,248,502</span> digital prayers sent worldwide.
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2023 Global Peace Initiative | "There is no way to peace, peace is the way."
+    </footer>
+
+    <script>
+        const quotes = [
+            { text: "Peace begins with a smile.", author: "Mother Teresa" },
+            { text: "When the power of love overcomes the love of power, the world will know peace.", author: "Jimi Hendrix" },
+            { text: "Imagine all the people living life in peace. You may say I'm a dreamer, but I'm not the only one.", author: "John Lennon" },
+            { text: "Darkness cannot drive out darkness; only light can do that. Hate cannot drive out hate; only love can do that.", author: "Martin Luther King Jr." },
+            { text: "An eye for an eye only ends up making the whole world blind.", author: "Mahatma Gandhi" },
+            { text: "Peace is not merely a distant goal that we seek, but a means by which we arrive at that goal.", author: "Martin Luther King Jr." }
+        ];
+
+        let currentQuoteIndex = 0;
+        let count = 1248502;
+
+        function updateQuote() {
+            const textEl = document.getElementById('quote-text');
+            const authorEl = document.getElementById('quote-author');
+            
+            // Fade out
+            textEl.style.opacity = 0;
+            authorEl.style.opacity = 0;
+
+            setTimeout(() => {
+                currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+                textEl.innerText = `"${quotes[currentQuoteIndex].text}"`;
+                authorEl.innerText = `— ${quotes[currentQuoteIndex].author}`;
+                
+                // Fade in
+                textEl.style.transition = "opacity 1s";
+                authorEl.style.transition = "opacity 1s";
+                textEl.style.opacity = 1;
+                authorEl.style.opacity = 1;
+            }, 500);
+        }
+
+        // Rotate quotes every 6 seconds
+        setInterval(updateQuote, 6000);
+
+        function sendWish() {
+            count++;
+            document.getElementById('wish-count').innerText = count.toLocaleString();
+            
+            // Create a small visual effect
+            const btn = document.querySelector('.wish-btn');
+            btn.innerText = "Wish Sent! ✨";
+            btn.style.backgroundColor = "#4caf50";
+            btn.style.color = "white";
+            
+            setTimeout(() => {
+                btn.innerText = "Send a Wish for Peace";
+                btn.style.backgroundColor = "white";
+                btn.style.color = "#1a237e";
+            }, 2000);
+
+            // Simple heart animation
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'fixed';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '0';
+            heart.style.fontSize = '2rem';
+            heart.style.transition = 'all 3s ease-out';
+            heart.style.zIndex = '100';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.transform = 'translateY(-100vh)';
+                heart.style.opacity = '0';
+            }, 100);
+
+            setTimeout(() => heart.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
